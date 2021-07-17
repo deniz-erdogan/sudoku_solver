@@ -1,6 +1,31 @@
 from pprint import PrettyPrinter, pprint
-
+import pygame, random
+from copy import deepcopy
 # Sudoku text based logic. 
+
+# Generate board with random values
+def generate_board():
+	while True:
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				pygame.quit()
+				exit()
+
+		board = [[0 for i in range(9)] for j in range(9)]
+
+		for i in range(9):
+			for j in range(9):
+				if random.randint(1, 10) >= 5:
+					board[i][j] = random.randint(1, 9)  #plug in random number at random spot
+					if is_valid(board, (i, j), board[i][j]):
+						continue
+					else:
+						board[i][j] = 0
+		partialBoard = deepcopy(board) #copies board without being modified after solve is called
+		if solve(board):
+			return partialBoard
+
+
 
 # Find and return first empty cell in the board
 def find_empty(board):
